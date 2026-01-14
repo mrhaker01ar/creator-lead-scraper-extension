@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      width: 450px;
+      min-height: 500px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+    }
+    
+    .header {
+      background: white;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 3px solid #667eea;
+    }
+    
+    .header h1 {
+      font-size: 20px;
+      color: #667eea;
+      margin-bottom: 5px;
+    }
+    
+    .header p {
+      font-size: 12px;
+      color: #999;
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 15px;
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .stat-card .number {
+      font-size: 24px;
+      font-weight: 700;
+      color: #667eea;
+      margin-bottom: 5px;
+    }
+    
+    .stat-card .label {
+      font-size: 11px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .controls {
+      padding: 15px;
+      background: white;
+    }
+    
+    .control-group {
+      margin-bottom: 15px;
+    }
+    
+    .control-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    
+    .control-group input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    
+    .toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    
+    .toggle label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 26px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: #667eea;
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+    
+    .leads-container {
+      max-height: 250px;
+      overflow-y: auto;
+      padding: 15px;
+      background: white;
+    }
+    
+    .lead-item {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border-left: 4px solid #667eea;
+    }
+    
+    .lead-item .platform {
+      display: inline-block;
+      padding: 3px 8px;
+      background: #667eea;
+      color: white;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .lead-item .name {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 3px;
+    }
+    
+    .lead-item .followers {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 5px;
+    }
+    
+    .lead-item a {
+      color: #667eea;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 15px;
+      background: white;
+      border-top: 1px solid #e0e0e0;
+    }
+    
+    .btn {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #333;
+      border: 2px solid #e0e0e0;
+    }
+    
+    .btn-secondary:hover {
+      background: #e9ecef;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+    }
+    
+    .empty-state svg {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 15px;
+      opacity: 0.3;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #667eea;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🤖 AI Creator Lead Scraper</h1>
+    <p>Auto-collecting leads in real-time</p>
+  </div>
+  
+  <div class="stats">
+    <div class="stat-card">
+      <div class="number" id="total-leads">0</div>
+      <div class="label">Total Leads</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" id="instagram-count">0</div>
+      <div class="label">Instagram</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" id="youtube-count">0</div>
+      <div class="label">YouTube</div>
+    </div>
+  </div>
+  
+  <div class="controls">
+    <div class="toggle">
+      <label>Auto-Scrape</label>
+      <label class="switch">
+        <input type="checkbox" id="auto-scrape" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    
+    <div class="control-group">
+      <label>Min Followers/Subs</label>
+      <input type="number" id="min-followers" value="1000" min="0">
+    </div>
+    
+    <div class="control-group">
+      <label>Max Followers/Subs</label>
+      <input type="number" id="max-followers" value="100000" min="0">
+    </div>
+  </div>
+  
+  <div class="leads-container" id="leads-container">
+    <div class="empty-state">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+      </svg>
+      <p>No leads yet. Browse Instagram or YouTube profiles!</p>
+    </div>
+  </div>
+  
+  <div class="buttons">
+    <button class="btn btn-primary" id="export-btn">📥 Export CSV</button>
+    <button class="btn btn-secondary" id="clear-btn">🗑️ Clear All</button>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
